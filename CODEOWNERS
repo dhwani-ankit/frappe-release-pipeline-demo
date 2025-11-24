@@ -1,0 +1,6 @@
+# This file ensures that DevOps team must approve PRs before merging
+# GitHub will require approval from these code owners
+
+# DevOps team must approve all changes
+* @your-devops-team
+
