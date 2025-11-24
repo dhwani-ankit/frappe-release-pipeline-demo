@@ -1,43 +1,6 @@
-## 📋 PR Checklist for DevOps Review
+## 📝 PR Details
 
-### Pre-Merge Requirements
-
-Please verify the following before approving this PR:
-
-#### ✅ Code Quality
-- [ ] All CI checks are passing (Lint, Tests, SonarQube)
-- [ ] No merge conflicts
-- [ ] Code follows project standards and conventions
-- [ ] SonarQube quality gate passed (if applicable)
-
-#### ✅ Testing
-- [ ] Unit tests pass locally
-- [ ] Integration tests pass (if applicable)
-- [ ] Manual testing completed (if required)
-- [ ] No breaking changes (or breaking changes documented)
-
-#### ✅ Security & Compliance
-- [ ] No sensitive data exposed (API keys, passwords, etc.)
-- [ ] Dependencies are up to date and secure
-- [ ] Security scan passed (if applicable)
-- [ ] Compliance requirements met
-
-#### ✅ Documentation
-- [ ] Code is properly commented
-- [ ] README updated (if needed)
-- [ ] Changelog updated (if applicable)
-- [ ] Migration notes added (if database changes)
-
-#### ✅ Deployment Readiness
-- [ ] Database migrations are backward compatible (if applicable)
-- [ ] Environment variables documented (if new ones added)
-- [ ] No hardcoded configuration values
-- [ ] Rollback plan considered (if major changes)
-
-#### ✅ Review Notes
-- [ ] All review comments addressed
-- [ ] No outstanding discussions
-- [ ] PR description is clear and complete
+**Note:** A DevOps Review Checklist will be automatically added as a comment when this PR is opened.
 
 ---
 
@@ -66,17 +29,17 @@ Please verify the following before approving this PR:
 
 This PR requires DevOps team approval before merging (see CODEOWNERS).
 
-**Reviewer:** @your-devops-team
+**Status:** ⏳ Pending DevOps Review
 
-**Status:** ⏳ Pending Review
+**Review Guidelines:** See [`.github/DEVOPS_CHECKLIST.md`](.github/DEVOPS_CHECKLIST.md) for detailed review process.
 
 ---
 
-## 📌 Post-Merge Checklist (Auto-filled after merge)
+## 📌 Post-Merge Actions (After DevOps Approval)
 
-- [ ] Deployment triggered automatically
-- [ ] Release tag created
-- [ ] GitHub release published
-- [ ] Manual deployment completed (if required)
-- [ ] Post-deployment verification completed
+Once merged, the following will happen automatically:
+- ✅ Release pipeline will trigger
+- ✅ Version tag will be created
+- ✅ GitHub release will be published
+- ⚠️ Manual deployment required (see deployment notes above)
 
