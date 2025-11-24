@@ -1,130 +1,32 @@
-name: Deploy to Server
+# ⚠️ THIS WORKFLOW IS DISABLED
+# Using release.yml instead for the release pipeline
+# This file is kept for reference only
 
+# To completely disable, you can delete this file or rename it to deploy.yml.disabled
+
+name: Deploy to Server (Disabled)
+
+# Disabled - no triggers enabled
+# on:
+#   push:
+#     branches:
+#       - main
+#   workflow_dispatch:
+
+# Empty workflow that never runs
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
+    inputs:
+      note:
+        description: 'This workflow is disabled - use release.yml instead'
+        required: false
+        default: 'disabled'
 
 jobs:
-  deploy:
-    name: Deploy to Production/Staging
+  disabled:
     runs-on: ubuntu-latest
-    environment:
-      name: ${{ github.ref == 'refs/heads/main' && 'production' || 'staging' }}
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup SSH
-        uses: webfactory/ssh-agent@v0.9.0
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
-      - name: Add server to known hosts
+      - name: Workflow Disabled
         run: |
-          ssh-keyscan -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
-
-      - name: Deploy to Server
-        run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_HOST }} "
-            set -e &&
-            echo '🚀 Starting deployment...' &&
-            cd ${{ secrets.BENCH_DIRECTORY }} &&
-            echo '📍 Current directory: $(pwd)' &&
-            echo '📥 Pulling latest app changes...' &&
-            bench update --pull --build &&
-            echo '🔄 Running migrations...' &&
-            bench migrate &&
-            echo '♻️ Restarting bench...' &&
-            bench restart &&
-            echo '✅ Deployment completed successfully!'
-          "
-
-      - name: Get deployment info
-        id: deployment
-        run: |
-          echo "commit_sha=${{ github.sha }}" >> $GITHUB_OUTPUT
-          echo "commit_message=$(git log -1 --pretty=%B)" >> $GITHUB_OUTPUT
-          echo "author=$(git log -1 --pretty=%an)" >> $GITHUB_OUTPUT
-          echo "timestamp=$(date -u +'%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_OUTPUT
-
-      - name: Send Slack Notification
-        if: always()
-        uses: slackapi/slack-github-action@v1.27.0
-        with:
-          webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
-          payload: |
-            {
-              "text": "🚀 Deployment ${{ job.status }}",
-              "blocks": [
-                {
-                  "type": "header",
-                  "text": {
-                    "type": "plain_text",
-                    "text": "🚀 Deployment ${{ job.status == 'success' && 'Successful' || 'Failed' }}"
-                  }
-                },
-                {
-                  "type": "section",
-                  "fields": [
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Environment:*\n${{ github.ref == 'refs/heads/main' && 'Production' || 'Staging' }}"
-                    },
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Status:*\n${{ job.status == 'success' && '✅ Success' || '❌ Failed' }}"
-                    },
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Commit:*\n<https://github.com/${{ github.repository }}/commit/${{ github.sha }}|${{ github.sha }}>"
-                    },
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Author:*\n${{ steps.deployment.outputs.author }}"
-                    },
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Message:*\n${{ steps.deployment.outputs.commit_message }}"
-                    },
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Time:*\n${{ steps.deployment.outputs.timestamp }}"
-                    }
-                  ]
-                }
-              ]
-            }
-        continue-on-error: true
-
-      - name: Send Discord Notification
-        if: always()
-        uses: sarisia/actions-status-discord@v1
-        with:
-          webhook: ${{ secrets.DISCORD_WEBHOOK_URL }}
-          title: "🚀 Deployment ${{ job.status == 'success' && 'Successful' || 'Failed' }}"
-          description: |
-            **Environment:** ${{ github.ref == 'refs/heads/main' && 'Production' || 'Staging' }}
-            **Status:** ${{ job.status == 'success' && '✅ Success' || '❌ Failed' }}
-            **Commit:** ${{ github.sha }}
-            **Author:** ${{ steps.deployment.outputs.author }}
-            **Message:** ${{ steps.deployment.outputs.commit_message }}
-            **Time:** ${{ steps.deployment.outputs.timestamp }}
-          color: ${{ job.status == 'success' && '0x00ff00' || '0xff0000' }}
-        continue-on-error: true
-
-      - name: Deployment Summary
-        if: always()
-        run: |
-          echo "## 🚀 Deployment Summary" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "| Item | Value |" >> $GITHUB_STEP_SUMMARY
-          echo "|------|-------|" >> $GITHUB_STEP_SUMMARY
-          echo "| Status | ${{ job.status == 'success' && '✅ Success' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| Environment | ${{ github.ref == 'refs/heads/main' && 'Production' || 'Staging' }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| Commit | \`${{ github.sha }}\` |" >> $GITHUB_STEP_SUMMARY
-          echo "| Author | ${{ steps.deployment.outputs.author }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| Message | ${{ steps.deployment.outputs.commit_message }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| Timestamp | ${{ steps.deployment.outputs.timestamp }} |" >> $GITHUB_STEP_SUMMARY
-
+          echo "⚠️ This workflow is disabled"
+          echo "Use .github/workflows/release.yml instead"

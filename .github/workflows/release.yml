@@ -41,8 +41,9 @@ jobs:
     name: Deploy to Frappe Server
     needs: smoke-check
     runs-on: ubuntu-latest
-    environment:
-      name: production
+    # No environment required for manual deployment mode
+    # environment:
+    #   name: production
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -148,9 +149,17 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git tag ${{ steps.bump.outputs.new_tag }}
-          git push origin ${{ steps.bump.outputs.new_tag }}
-          echo "✅ Created and pushed tag: ${{ steps.bump.outputs.new_tag }}"
+          # Check if tag already exists
+          if git rev-parse "${{ steps.bump.outputs.new_tag }}" >/dev/null 2>&1; then
+            echo "⚠️ Tag ${{ steps.bump.outputs.new_tag }} already exists, skipping..."
+          else
+            git tag ${{ steps.bump.outputs.new_tag }}
+            git push origin ${{ steps.bump.outputs.new_tag }} || {
+              echo "⚠️ Failed to push tag, it may already exist"
+              exit 0
+            }
+            echo "✅ Created and pushed tag: ${{ steps.bump.outputs.new_tag }}"
+          fi
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1

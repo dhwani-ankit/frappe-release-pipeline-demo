@@ -66,6 +66,11 @@ The `CODEOWNERS` file ensures DevOps team must approve:
 * @devops-team
 ```
 
+**PR Review Checklist:**
+- When a PR is opened, a checklist template (`.github/pull_request_template.md`) is automatically populated
+- DevOps team uses the checklist to verify all requirements are met
+- See [`.github/DEVOPS_CHECKLIST.md`](.github/DEVOPS_CHECKLIST.md) for detailed review guidelines
+
 GitHub branch protection rules require:
 - ✅ Status checks to pass
 - ✅ DevOps approval
@@ -186,14 +191,25 @@ The `CODEOWNERS` file is already configured. Make sure the `@devops-team` team e
 .
 ├── .github/
 │   ├── workflows/
-│   │   ├── pr-checks.yml      # PR validation workflow
-│   │   └── deploy.yml         # Deployment workflow
-│   └── BRANCH_PROTECTION.md   # Branch protection guide
+│   │   ├── pr-checks.yml          # PR validation workflow
+│   │   ├── release.yml            # Release pipeline workflow
+│   │   └── deploy.yml             # Deployment workflow (disabled)
+│   ├── pull_request_template.md   # PR checklist template
+│   ├── DEVOPS_CHECKLIST.md        # DevOps review checklist
+│   ├── BRANCH_PROTECTION.md       # Branch protection guide
+│   └── WORKFLOW_STRATEGY.md       # Workflow strategy documentation
 ├── scripts/
-│   ├── deploy.sh              # Deployment script
-│   └── setup-secrets.sh       # Secrets setup guide
-├── CODEOWNERS                 # DevOps approval requirement
-└── README.md                  # This file
+│   ├── deploy.sh                  # Deployment script
+│   └── setup-secrets.sh           # Secrets setup guide
+├── app/
+│   └── __init__.py                # App initialization
+├── tests/
+│   └── test_sample.py             # Sample tests
+├── CODEOWNERS                     # DevOps approval requirement
+├── requirements.txt               # Python dependencies
+├── .flake8                        # Flake8 configuration
+├── sonar-project.properties       # SonarQube configuration
+└── README.md                      # This file
 ```
 
 ## 🔍 Workflow Files
