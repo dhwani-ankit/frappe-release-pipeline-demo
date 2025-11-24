@@ -67,8 +67,9 @@ The `CODEOWNERS` file ensures DevOps team must approve:
 ```
 
 **PR Review Checklist:**
-- When a PR is opened, a checklist template (`.github/pull_request_template.md`) is automatically populated
-- DevOps team uses the checklist to verify all requirements are met
+- When a PR is opened, a **bot automatically adds a DevOps checklist as a comment** (similar to PR Buddy)
+- DevOps team can **manually check each item** directly in the PR comment
+- The checklist includes: SonarQube verification, deployment notes, testing, security, and more
 - See [`.github/DEVOPS_CHECKLIST.md`](.github/DEVOPS_CHECKLIST.md) for detailed review guidelines
 
 GitHub branch protection rules require:
