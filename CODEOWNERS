@@ -1,5 +1,8 @@
 # This file ensures that DevOps team must approve PRs before merging
 # GitHub will require approval from these code owners
+#
+# PR Review Checklist: See .github/pull_request_template.md
+# DevOps Review Guide: See .github/DEVOPS_CHECKLIST.md
 
 # DevOps team must approve all changes
 * @your-devops-team
